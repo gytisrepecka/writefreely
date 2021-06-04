@@ -134,16 +134,16 @@ ui : force_look
 	cd prose/; $(MAKE) $(MFLAGS)
 
 assets : generate
-	go-bindata -pkg writefreely -ignore=\\.gitignore -tags="!wflib" schema.sql sqlite.sql
+	go-bindata -pkg writefreely -ignore=\\.gitignore -tags="!wflib" schema.sql sqlite.sql postgres.sql
 
 assets-no-sqlite: generate
-	go-bindata -pkg writefreely -ignore=\\.gitignore -tags="!wflib" schema.sql
+	go-bindata -pkg writefreely -ignore=\\.gitignore -tags="!wflib" schema.sql postgres.sql
 
 dev-assets : generate
-	go-bindata -pkg writefreely -ignore=\\.gitignore -debug -tags="!wflib" schema.sql sqlite.sql
+	go-bindata -pkg writefreely -ignore=\\.gitignore -debug -tags="!wflib" schema.sql sqlite.sql postgres.sql
 
 lib-assets : generate
-	go-bindata -pkg writefreely -ignore=\\.gitignore -o bindata-lib.go -tags="wflib" schema.sql
+	go-bindata -pkg writefreely -ignore=\\.gitignore -o bindata-lib.go -tags="wflib" schema.sql postgres.sql
 
 generate :
 	@hash go-bindata > /dev/null 2>&1; if [ $$? -ne 0 ]; then \
@@ -160,12 +160,12 @@ $(TMPBIN)/xgo: deps $(TMPBIN)
 	$(GOBUILD) -o $(TMPBIN)/xgo src.techknowlogick.com/xgo
 
 ci-assets : $(TMPBIN)/go-bindata
-	$(TMPBIN)/go-bindata -pkg writefreely -ignore=\\.gitignore -tags="!wflib" schema.sql sqlite.sql
+	$(TMPBIN)/go-bindata -pkg writefreely -ignore=\\.gitignore -tags="!wflib" schema.sql sqlite.sql postgres.sql
 
 clean :
 	-rm -rf build
 	-rm -rf tmp
 	cd less/; $(MAKE) clean $(MFLAGS)
 
-force_look : 
+force_look :
 	true
