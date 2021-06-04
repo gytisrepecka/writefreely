@@ -44,6 +44,7 @@ const (
 
 	driverMySQL  = "mysql"
 	driverSQLite = "sqlite3"
+	driverPostgreSQL = "postgres"
 )
 
 var (
@@ -1731,7 +1732,7 @@ func (db *datastore) GetMeStats(u *User) userMeStats {
 
 func (db *datastore) GetTotalCollections() (collCount int64, err error) {
 	err = db.QueryRow(`
-	SELECT COUNT(*) 
+	SELECT COUNT(*)
 	FROM collections c
 	LEFT JOIN users u ON u.id = c.owner_id
 	WHERE u.status = 0`).Scan(&collCount)
