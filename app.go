@@ -41,6 +41,7 @@ import (
 	"github.com/writefreely/writefreely/migrations"
 	"github.com/writefreely/writefreely/page"
 	"golang.org/x/crypto/acme/autocert"
+	"github.com/lib/pq"
 )
 
 const (
