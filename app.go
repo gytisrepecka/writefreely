@@ -882,6 +882,8 @@ func adminInitDatabase(app *App) error {
 	schemaFileName := "schema.sql"
 	if app.cfg.Database.Type == driverSQLite {
 		schemaFileName = "sqlite.sql"
+	} else if app.cfg.Database.Type == driverPostgreSQL {
+		schemaFileName = "postgres.sql"
 	}
 
 	schema, err := Asset(schemaFileName)
