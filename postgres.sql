@@ -1,40 +1,46 @@
+--
+-- Database (PostgreSQL): `writefreely`
+--
+
+-- --------------------------------------------------------
+
 -- DROP SCHEMA dev_writefreely;
 
 -- CREATE SCHEMA dev_writefreely AUTHORIZATION dev_writefreely;
 
--- DROP SEQUENCE collections_id_seq;
+-- DROP SEQUENCE public.collections_id_seq;
 
-CREATE SEQUENCE collections_id_seq
+CREATE SEQUENCE public.collections_id_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 2147483647
 	START 1
 	CACHE 1
 	NO CYCLE;
--- DROP SEQUENCE remoteusers_id_seq;
+-- DROP SEQUENCE public.remoteusers_id_seq;
 
-CREATE SEQUENCE remoteusers_id_seq
+CREATE SEQUENCE public.remoteusers_id_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 9223372036854775807
 	START 1
 	CACHE 1
 	NO CYCLE;
--- DROP SEQUENCE users_id_seq;
+-- DROP SEQUENCE public.users_id_seq;
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 2147483647
 	START 1
 	CACHE 1
-	NO CYCLE;-- accesstokens definition
+	NO CYCLE;-- public.accesstokens definition
 
 -- Drop table
 
--- DROP TABLE accesstokens;
+-- DROP TABLE public.accesstokens;
 
-CREATE TABLE accesstokens (
+CREATE TABLE public.accesstokens (
 	"token" bytea NOT NULL,
 	user_id int4 NOT NULL,
 	sudo bool NOT NULL DEFAULT false,
@@ -46,13 +52,13 @@ CREATE TABLE accesstokens (
 );
 
 
--- appcontent definition
+-- public.appcontent definition
 
 -- Drop table
 
--- DROP TABLE appcontent;
+-- DROP TABLE public.appcontent;
 
-CREATE TABLE appcontent (
+CREATE TABLE public.appcontent (
 	id varchar(36) NOT NULL,
 	"content" text NOT NULL,
 	updated timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -62,26 +68,26 @@ CREATE TABLE appcontent (
 );
 
 
--- appmigrations definition
+-- public.appmigrations definition
 
 -- Drop table
 
--- DROP TABLE appmigrations;
+-- DROP TABLE public.appmigrations;
 
-CREATE TABLE appmigrations (
+CREATE TABLE public.appmigrations (
 	"version" int8 NOT NULL,
 	migrated timestamptz NOT NULL,
 	"result" text NOT NULL
 );
 
 
--- collectionattributes definition
+-- public.collectionattributes definition
 
 -- Drop table
 
--- DROP TABLE collectionattributes;
+-- DROP TABLE public.collectionattributes;
 
-CREATE TABLE collectionattributes (
+CREATE TABLE public.collectionattributes (
 	collection_id int4 NOT NULL,
 	"attribute" varchar(128) NOT NULL,
 	value varchar(255) NOT NULL,
@@ -89,13 +95,13 @@ CREATE TABLE collectionattributes (
 );
 
 
--- collectionkeys definition
+-- public.collectionkeys definition
 
 -- Drop table
 
--- DROP TABLE collectionkeys;
+-- DROP TABLE public.collectionkeys;
 
-CREATE TABLE collectionkeys (
+CREATE TABLE public.collectionkeys (
 	collection_id int4 NOT NULL,
 	public_key bytea NOT NULL,
 	private_key bytea NOT NULL,
@@ -103,39 +109,39 @@ CREATE TABLE collectionkeys (
 );
 
 
--- collectionpasswords definition
+-- public.collectionpasswords definition
 
 -- Drop table
 
--- DROP TABLE collectionpasswords;
+-- DROP TABLE public.collectionpasswords;
 
-CREATE TABLE collectionpasswords (
+CREATE TABLE public.collectionpasswords (
 	collection_id int4 NOT NULL,
 	"password" bpchar(60) NOT NULL,
 	CONSTRAINT idx_16509_primary PRIMARY KEY (collection_id)
 );
 
 
--- collectionredirects definition
+-- public.collectionredirects definition
 
 -- Drop table
 
--- DROP TABLE collectionredirects;
+-- DROP TABLE public.collectionredirects;
 
-CREATE TABLE collectionredirects (
+CREATE TABLE public.collectionredirects (
 	prev_alias varchar(100) NOT NULL,
 	new_alias varchar(100) NOT NULL,
 	CONSTRAINT idx_16512_primary PRIMARY KEY (prev_alias)
 );
 
 
--- collections definition
+-- public.collections definition
 
 -- Drop table
 
--- DROP TABLE collections;
+-- DROP TABLE public.collections;
 
-CREATE TABLE collections (
+CREATE TABLE public.collections (
 	id serial NOT NULL,
 	alias varchar(100) NULL DEFAULT NULL::character varying,
 	title varchar(255) NOT NULL,
@@ -149,16 +155,16 @@ CREATE TABLE collections (
 	view_count int4 NOT NULL,
 	CONSTRAINT idx_16517_primary PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX idx_16517_alias ON collections USING btree (alias);
+CREATE UNIQUE INDEX idx_16517_alias ON public.collections USING btree (alias);
 
 
--- oauth_client_states definition
+-- public.oauth_client_states definition
 
 -- Drop table
 
--- DROP TABLE oauth_client_states;
+-- DROP TABLE public.oauth_client_states;
 
-CREATE TABLE oauth_client_states (
+CREATE TABLE public.oauth_client_states (
 	state varchar(255) NOT NULL,
 	used bool NOT NULL,
 	created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -167,32 +173,32 @@ CREATE TABLE oauth_client_states (
 	attach_user_id int8 NULL,
 	invite_code bpchar(6) NULL DEFAULT NULL::bpchar
 );
-CREATE UNIQUE INDEX idx_16526_state ON oauth_client_states USING btree (state);
+CREATE UNIQUE INDEX idx_16526_state ON public.oauth_client_states USING btree (state);
 
 
--- oauth_users definition
+-- public.oauth_users definition
 
 -- Drop table
 
--- DROP TABLE oauth_users;
+-- DROP TABLE public.oauth_users;
 
-CREATE TABLE oauth_users (
+CREATE TABLE public.oauth_users (
 	user_id int8 NOT NULL,
 	remote_user_id varchar(128) NOT NULL,
 	provider varchar(24) NOT NULL DEFAULT ''::character varying,
 	client_id varchar(128) NOT NULL DEFAULT ''::character varying,
 	access_token varchar(512) NOT NULL DEFAULT ''::character varying
 );
-CREATE UNIQUE INDEX idx_16533_oauth_users_uk ON oauth_users USING btree (user_id, provider, client_id);
+CREATE UNIQUE INDEX idx_16533_oauth_users_uk ON public.oauth_users USING btree (user_id, provider, client_id);
 
 
--- posts definition
+-- public.posts definition
 
 -- Drop table
 
--- DROP TABLE posts;
+-- DROP TABLE public.posts;
 
-CREATE TABLE posts (
+CREATE TABLE public.posts (
 	id bpchar(16) NOT NULL,
 	slug varchar(100) NULL DEFAULT NULL::character varying,
 	modify_token bpchar(32) NULL DEFAULT NULL::bpchar,
@@ -210,19 +216,19 @@ CREATE TABLE posts (
 	"content" text NOT NULL,
 	CONSTRAINT idx_16542_primary PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX idx_16542_id_slug ON posts USING btree (collection_id, slug);
-CREATE UNIQUE INDEX idx_16542_owner_id ON posts USING btree (owner_id, id);
-CREATE INDEX idx_16542_owner_id_2 ON posts USING btree (owner_id, id);
-CREATE INDEX idx_16542_privacy_id ON posts USING btree (privacy, id);
+CREATE UNIQUE INDEX idx_16542_id_slug ON public.posts USING btree (collection_id, slug);
+CREATE UNIQUE INDEX idx_16542_owner_id ON public.posts USING btree (owner_id, id);
+CREATE INDEX idx_16542_owner_id_2 ON public.posts USING btree (owner_id, id);
+CREATE INDEX idx_16542_privacy_id ON public.posts USING btree (privacy, id);
 
 
--- remotefollows definition
+-- public.remotefollows definition
 
 -- Drop table
 
--- DROP TABLE remotefollows;
+-- DROP TABLE public.remotefollows;
 
-CREATE TABLE remotefollows (
+CREATE TABLE public.remotefollows (
 	collection_id int8 NOT NULL,
 	remote_user_id int8 NOT NULL,
 	created timestamptz NOT NULL,
@@ -230,28 +236,28 @@ CREATE TABLE remotefollows (
 );
 
 
--- remoteuserkeys definition
+-- public.remoteuserkeys definition
 
 -- Drop table
 
--- DROP TABLE remoteuserkeys;
+-- DROP TABLE public.remoteuserkeys;
 
-CREATE TABLE remoteuserkeys (
+CREATE TABLE public.remoteuserkeys (
 	id varchar(255) NOT NULL,
 	remote_user_id int8 NOT NULL,
 	public_key bytea NOT NULL,
 	CONSTRAINT idx_16557_primary PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX idx_16557_follower_id ON remoteuserkeys USING btree (remote_user_id);
+CREATE UNIQUE INDEX idx_16557_follower_id ON public.remoteuserkeys USING btree (remote_user_id);
 
 
--- remoteusers definition
+-- public.remoteusers definition
 
 -- Drop table
 
--- DROP TABLE remoteusers;
+-- DROP TABLE public.remoteusers;
 
-CREATE TABLE remoteusers (
+CREATE TABLE public.remoteusers (
 	id bigserial NOT NULL,
 	actor_id varchar(255) NOT NULL,
 	inbox varchar(255) NOT NULL,
@@ -259,16 +265,16 @@ CREATE TABLE remoteusers (
 	handle varchar(255) NULL DEFAULT NULL::character varying,
 	CONSTRAINT idx_16565_primary PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX idx_16565_collection_id ON remoteusers USING btree (actor_id);
+CREATE UNIQUE INDEX idx_16565_collection_id ON public.remoteusers USING btree (actor_id);
 
 
--- userattributes definition
+-- public.userattributes definition
 
 -- Drop table
 
--- DROP TABLE userattributes;
+-- DROP TABLE public.userattributes;
 
-CREATE TABLE userattributes (
+CREATE TABLE public.userattributes (
 	user_id int4 NOT NULL,
 	"attribute" varchar(64) NOT NULL,
 	value varchar(255) NOT NULL,
@@ -276,13 +282,13 @@ CREATE TABLE userattributes (
 );
 
 
--- userinvites definition
+-- public.userinvites definition
 
 -- Drop table
 
--- DROP TABLE userinvites;
+-- DROP TABLE public.userinvites;
 
-CREATE TABLE userinvites (
+CREATE TABLE public.userinvites (
 	id bpchar(6) NOT NULL,
 	owner_id int8 NOT NULL,
 	max_uses int2 NULL,
@@ -292,13 +298,13 @@ CREATE TABLE userinvites (
 );
 
 
--- users definition
+-- public.users definition
 
 -- Drop table
 
--- DROP TABLE users;
+-- DROP TABLE public.users;
 
-CREATE TABLE users (
+CREATE TABLE public.users (
 	id serial NOT NULL,
 	username varchar(100) NOT NULL,
 	"password" bpchar(60) NOT NULL,
@@ -307,16 +313,16 @@ CREATE TABLE users (
 	status int8 NOT NULL DEFAULT '0'::bigint,
 	CONSTRAINT idx_16581_primary PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX idx_16581_username ON users USING btree (username);
+CREATE UNIQUE INDEX idx_16581_username ON public.users USING btree (username);
 
 
--- usersinvited definition
+-- public.usersinvited definition
 
 -- Drop table
 
--- DROP TABLE usersinvited;
+-- DROP TABLE public.usersinvited;
 
-CREATE TABLE usersinvited (
+CREATE TABLE public.usersinvited (
 	invite_id bpchar(6) NOT NULL,
 	user_id int8 NOT NULL
 );
