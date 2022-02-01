@@ -20,7 +20,7 @@ require (
 	github.com/lunixbochs/vtclean v1.0.0 // indirect
 	github.com/manifoldco/promptui v0.8.0
 	github.com/mattn/go-sqlite3 v1.14.6
-	github.com/microcosm-cc/bluemonday v1.0.5
+	github.com/microcosm-cc/bluemonday v1.0.17
 	github.com/mitchellh/go-wordwrap v1.0.1
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/prologic/go-gopher v0.0.0-20200721020712-3e11dcff0469
@@ -42,7 +42,7 @@ require (
 	github.com/writeas/web-core v1.3.1-0.20210330164422-95a3a717ed8f
 	github.com/writefreely/go-nodeinfo v1.2.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
-	golang.org/x/net v0.0.0-20200707034311-ab3426394381
+	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
 	gopkg.in/ini.v1 v1.62.0
 )
 
