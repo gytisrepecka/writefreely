@@ -3,7 +3,7 @@ module github.com/writefreely/writefreely
 require (
 	github.com/dustin/go-humanize v1.0.0
 	github.com/fatih/color v1.10.0
-	github.com/go-ini/ini v1.66.4
+	github.com/go-ini/ini v1.67.0
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gorilla/csrf v1.7.0
 	github.com/gorilla/feeds v1.1.1
